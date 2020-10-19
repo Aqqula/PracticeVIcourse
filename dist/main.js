@@ -1,0 +1,1 @@
+new Vue({el:"#Day4",data:{students:studArray,surname:"Input name...",student:{name:"",group:"",mark:"",pw:!1}},methods:{deleteStud:function(t){this.students.splice(t,1)},pushStudent:function(){this.students.push(JSON.parse(JSON.stringify(this.student)))}}});
