@@ -13,26 +13,7 @@
     </style>
 </head>
 <body>
-    <div id="Day4">
-        <input type="text" v-model="surname">
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Grope</th>
-                <th>Mark</th>
-                <th>Practical Work</th>
-                <th>Delete</th>
-            </tr>
-            <tr v-for="(stud, index) in students">
-                <td v-bind:class="stud.name.includes(surname) ? 'pink' : 'black'">{{stud.name}}</td>
-                <td>{{stud.group}}</td>
-                <td>{{stud.mark}}</td>
-                <td><input type="checkbox" v-model="stud.isDonePr"></td>
-                <td><button v-on:click="deleteStud(index)">Delete</button></td>
-
-            </tr>
-        </table>
+    <div id="app">
     </div>
-    <script src="main.js"></script>
 </body>
 </html>
