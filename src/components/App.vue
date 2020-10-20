@@ -14,7 +14,7 @@
                 <td>{{stud.group}}</td>
                 <td>{{stud.mark}}</td>
                 <td><input type="checkbox" v-model="stud.isDonePr"></td>
-                <td><button v-on:click="deleteStud(index)">Delete</button></td>
+                <td><button v-on:click="deleteStud(stud._id)">Delete</button></td>
 
             </tr>
         </table>
@@ -29,7 +29,7 @@
             <option value="4">4</option>
             <option value="5">5</option>
         </select>
-        <input type="checkbox" v-model="student.check">Pract. Work
+        <input type="checkbox" v-model="student.isDonePr">Pract. Work
         <button v-on:click="pushStudent">Add</button>
     </div>
 </template> 
@@ -44,7 +44,7 @@ export default {
         return {
           students: [],
           surname: "Please, input your name",
-          student:{name:"",group:"",mark:"",isDonePr: false}
+          student:{name:"",group:"",mark:"", isDonePr: false}
         }
     },
     mounted: function() {
@@ -55,11 +55,11 @@ export default {
         })
     },
     methods:{
-        deleteStud: function(index) {
-            this.students.splice(index, 1);
+        deleteStud: function(id) {
+            axios.delete("http://46.101.212.195:3000/students/" + id)
         },
         pushStudent: function(){
-            Vue.axios.post("http://46.101.212.195:3000/students",this.student)
+            axios.post("http://46.101.212.195:3000/students",this.student)
             .then((response) => {
                 console.log(response.data)
             })
