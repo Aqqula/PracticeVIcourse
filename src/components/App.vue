@@ -17,7 +17,20 @@
                 <td><button v-on:click="deleteStud(index)">Delete</button></td>
 
             </tr>
-        </table> 
+        </table>
+        <input type="text" v-model="student.name" placeholder="Name">
+        <select v-model="student.group">
+            <option value="17 2/9">17 2/9</option>
+            <option value="17 1/9">17 1/9</option>
+        </select>
+        <select name="Mark" v-model="student.mark">
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        <input type="checkbox" v-model="student.check">Pract. Work
+        <button v-on:click="pushStudent">Add</button>
     </div>
 </template> 
 
@@ -27,9 +40,12 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 
 export default {
-    data: {
-        students: [],
-        surname: "Input name...",
+    data () {
+        return {
+          students: [],
+          surname: "Please, input your name",
+          student:{name:"",group:"",mark:"",isDonePr: false}
+        }
     },
     mounted: function() {
         console.log(this);
@@ -41,7 +57,13 @@ export default {
     methods:{
         deleteStud: function(index) {
             this.students.splice(index, 1);
+        },
+        pushStudent: function(){
+            Vue.axios.post("http://46.101.212.195:3000/students",this.student)
+            .then((response) => {
+                console.log(response.data)
+            })
+            }  
         }
     }
-}
 </script>
