@@ -15,7 +15,6 @@
                 <td>{{stud.mark}}</td>
                 <td><input type="checkbox" v-model="stud.isDonePr"></td>
                 <td><button v-on:click="deleteStud(stud._id)">Delete</button></td>
-
             </tr>
         </table>
         <input type="text" v-model="student.name" placeholder="Name">
@@ -44,7 +43,7 @@ export default {
         return {
           students: [],
           surname: "Please, input your name",
-          student:{name:"",group:"",mark:"", isDonePr: false}
+          student:{name:"",group:"",mark:"", isDonePr: false,isEdited: false},
         }
     },
     mounted: function() {
@@ -63,7 +62,10 @@ export default {
             .then((response) => {
                 console.log(response.data)
             })
-            }  
-        }
+        },
+        editStudent:function(id){
+            axios.put("http://46.101.212.195:3000/students")
+        }  
     }
+}
 </script>
