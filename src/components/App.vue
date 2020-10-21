@@ -53,6 +53,31 @@
         </select>
         <input type="checkbox" v-model="student.isDonePr">Pract. Work
         <button v-on:click="pushStudent">Add</button>
+
+        <div>
+            <h2>Currency Converter</h2>
+
+            <span>Enter: </span>
+            <input type="text" v-model="amount"><br>
+
+            <span>Convert from: </span>
+            <select v-model="ccyToSell">
+                <option value="UAN">UAN</option>
+                <option value="EUR">EUR</option>
+                <option value="USD">USD</option>
+                <option value="RUB">RUB</option>
+            </select>
+
+            <span>Convert to:</span>
+            <select v-model="ccyToBuy">
+                <option value="UAN">UAN</option>
+                <option value="EUR">EUR</option>
+                <option value="USD">USD</option>
+                <option value="RUB">RUB</option>
+            </select>
+            <button v-on:click="convertCurrency">Convert</button>
+            <h4>{{amount}} {{ccyToSell}} equals {{convertAmount}} {{ccyToBuy}}</h4>
+        </div>
     </div>
 </template> 
 
@@ -67,7 +92,12 @@ export default {
           students: [],
           surname: "Please, input your name",
           student:{name:"",group:"",mark:"", isDonePr: false},
-          EditId: 0
+          EditId: 0,
+          DataExchange: [],
+          amount: 0,
+          ccyToSell: '',
+          ccyToBuy: '',
+          convertAmount: 0
         }
     },
     mounted: function() {
@@ -105,7 +135,34 @@ export default {
                 console.log(response.data)
             })
             this.EditId = 0;
-        }  
+        },
+        convertCurrency:function(){
+            var action, ccy;
+
+            if(this.ccyToBuy == 'UAN') {
+                ccy = this.ccyToSell;
+                action = 'buy'
+            }
+            else if(this.ccyToSell == 'UAN') {
+                ccy = this.ccyToBuy;
+                action = 'sell'
+            }
+            else alert('Choose UAN')
+
+            axios.get("https://api.privatbank.ua/p24api/pubinfo?exchange&json&coursid=11").then((response) => {
+                console.log(response.data);
+                this.DataExchange = response.data;
+                let rightDataExchange = this.DataExchange.find((element) => {
+                    return element.ccy == ccy;
+                })
+
+                console.log(rightDataExchange)
+                if(action == 'buy')
+                    this.convertAmount = this.amount * rightDataExchange.buy
+                else if(action == 'sell')
+                    this.convertAmount = this.amount / rightDataExchange.sale
+            })
+        }
     }
 }
 </script>
