@@ -10,11 +10,34 @@
                 <th>Delete</th>
             </tr>
             <tr v-for="stud in students" v-bind:key="stud._id">
-                <td v-bind:class="stud.name.includes(surname) ? 'pink' : 'black'">{{stud.name}}</td>
-                <td>{{stud.group}}</td>
-                <td>{{stud.mark}}</td>
-                <td><input type="checkbox" v-model="stud.isDonePr"></td>
-                <td><button v-on:click="deleteStud(stud._id)">Delete</button></td>
+                <template v-if="stud._id==EditId">
+                    <td><input v-model="stud.name" value="stud.name"></td>
+                    <td>
+                        <select v-model="stud.group">
+                            <option value="17 2/9">17 2/9</option>
+                            <option value="17 1/9">17 1/9</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="Mark" v-model="stud.mark">
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </td>
+                    <td><input type="checkbox" v-model="stud.isDonePr"></td>
+                    <td></td>
+                    <td><button v-on:click="SaveEdit(EditId)">Save</button></td>
+                </template>
+                <template v-else>
+                    <td v-bind:class="stud.name.includes(surname) ? 'pink' : 'black'">{{stud.name}}</td>
+                    <td>{{stud.group}}</td>
+                    <td>{{stud.mark}}</td>
+                    <td><input type="checkbox" v-model="stud.isDonePr"></td>
+                    <td><button v-on:click="deleteStud(stud._id)">Delete</button></td>
+                    <td><button v-on:click="FoudId(stud._id)">Update</button></td>
+                </template>
             </tr>
         </table>
         <input type="text" v-model="student.name" placeholder="Name">
@@ -43,7 +66,8 @@ export default {
         return {
           students: [],
           surname: "Please, input your name",
-          student:{name:"",group:"",mark:"", isDonePr: false,isEdited: false},
+          student:{name:"",group:"",mark:"", isDonePr: false},
+          EditId: 0
         }
     },
     mounted: function() {
@@ -63,8 +87,24 @@ export default {
                 console.log(response.data)
             })
         },
-        editStudent:function(id){
-            axios.put("http://46.101.212.195:3000/students")
+        FoudId: function(id){
+            this.EditId = id;
+        },
+        SaveEdit: function(id){
+            let EditStudent = this.students.find((element) => {
+                return element._id == id;
+            });
+
+            axios.put("http://46.101.212.195:3000/students/" + id, {
+                name: EditStudent.name,
+                group: EditStudent.group,
+                mark: EditStudent.mark,
+                isDonePr: false
+            })
+            .then((response) => {
+                console.log(response.data)
+            })
+            this.EditId = 0;
         }  
     }
 }
