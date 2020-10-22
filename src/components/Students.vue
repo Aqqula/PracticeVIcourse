@@ -76,8 +76,10 @@
                 <option value="RUB">RUB</option>
             </select>
             <button v-on:click="convertCurrency">Convert</button>
-            <h4>{{amount}} {{ccyToSell}} equals {{convertAmount}} {{ccyToBuy}}</h4>
+            <h4>{{amount}} {{ccyToSell}} equals {{convertAmount | roundNum}} {{ccyToBuy}}</h4>
         </div>
+
+        <router-link :to="'/nova-poshta/'"><button>Nova-Poshta</button></router-link>
     </div>
 </template> 
 
@@ -104,6 +106,11 @@ export default {
             console.log(response.data)
             this.students = response.data;
         })
+    },
+    filters: { 
+        roundNum:  function(value) { 
+                return Math.round(value * 100) / 100 
+        }
     },
     methods:{
         deleteStud: function(id) {
@@ -160,7 +167,7 @@ export default {
                 else if(action == 'sell')
                     this.convertAmount = this.amount / rightDataExchange.sale
             })
-        }
+        },
     }
 }
 </script>

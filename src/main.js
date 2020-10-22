@@ -6,10 +6,12 @@ import VueAxios from 'vue-axios'
 import App from './components/App.vue'
 import Students from './components/Students.vue'
 import StudentInfo from './components/StudentInfo.vue'
+import NovaP from './components/NovaP.vue'
 
 const routes = [
    { path: '/', component: Students},
-   { path: '/student-info/:id', component: StudentInfo, props: true}
+   { path: '/student-info/:id', component: StudentInfo, props: true},
+   { path: '/nova-poshta/', component: NovaP}
 ]
 
 const router = new VueRouter({
@@ -17,7 +19,7 @@ const router = new VueRouter({
 })
 
 Vue.use(VueRouter)
-Vue.use(VueAxios,axios)
+Vue.use(VueAxios, axios)
 
 new Vue({
    render: h => h(App),
