@@ -7,6 +7,7 @@ import App from './components/App.vue'
 import Students from './components/Students.vue'
 import StudentInfo from './components/StudentInfo.vue'
 import NovaP from './components/NovaP.vue'
+import store from './store.js'
 
 const routes = [
    { path: '/', component: Students},
@@ -24,5 +25,6 @@ Vue.use(VueAxios, axios)
 new Vue({
    render: h => h(App),
    el: '#App',
-   router
+   router,
+   store
 })

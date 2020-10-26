@@ -53,6 +53,7 @@
         </select>
         <input type="checkbox" v-model="student.isDonePr">Pract. Work
         <button v-on:click="pushStudent">Add</button>
+        <p>Quantities students:{{studentsCount}}</p>
 
         <div>
             <h2>Currency Converter</h2>
@@ -100,12 +101,16 @@ export default {
           convertAmount: 0
         }
     },
-    mounted: function() {
-        console.log(this);
-        Vue.axios.get("http://46.101.212.195:3000/students").then((response) => {
+    computed:{
+        studentsCount () {
+            return this.$store.getters.getCount
+        }
+    },
+    mounted: async function() {
+            let response = await Vue.axios.get("http://46.101.212.195:3000/students");
             console.log(response.data)
             this.students = response.data;
-        })
+            this.$store.commit('setCount', this.students.length);
     },
     filters: { 
         roundNum:  function(value) { 
