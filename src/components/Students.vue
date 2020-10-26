@@ -2,14 +2,14 @@
     <div>
         <template v-if="!change">
             <link rel="stylesheet" href="./assets/styles/style1.css">
-            <button>Cтиль 2</button>
+            <button @click="changedStyle()">Style 2</button>
         </template>
         <template v-else>
             <link rel="stylesheet" href="./assets/styles/style2.css">
-            <button>Стиль 1</button>
+            <button  @click="changedStyle()">Style 1</button>
         </template>
         <input type="text" v-model="surname">
-        <table>
+        <table><!--Table-->
             <tr>
                 <th>Name</th>
                 <th>Grope</th>
@@ -48,22 +48,23 @@
                 </template>
             </tr>
         </table>
-        <input type="text" v-model="student.name" placeholder="Name">
-        <select v-model="student.group">
-            <option value="17 2/9">17 2/9</option>
-            <option value="17 1/9">17 1/9</option>
-        </select>
-        <select name="Mark" v-model="student.mark">
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select>
-        <input type="checkbox" v-model="student.isDonePr">Pract. Work
-        <button v-on:click="pushStudent">Add</button>
-        <p>Quantities students:{{studentsCount}}</p>
-
-        <div>
+        <div><!--Function-->
+            <input type="text" v-model="student.name" placeholder="Name">
+            <select v-model="student.group">
+                <option value="17 2/9">17 2/9</option>
+                <option value="17 1/9">17 1/9</option>
+            </select>
+            <select name="Mark" v-model="student.mark">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <input type="checkbox" v-model="student.isDonePr">Pract. Work
+            <button v-on:click="pushStudent">Add</button>
+            <p>Quantities students:{{studentsCount}}</p>
+        </div>
+        <div> <!--PrivaBank-->
             <h2>Currency Converter</h2>
 
             <span>Enter: </span>
@@ -87,8 +88,7 @@
             <button v-on:click="convertCurrency">Convert</button>
             <h4>{{amount}} {{ccyToSell}} equals {{convertAmount | roundNum}} {{ccyToBuy}}</h4>
         </div>
-
-        <router-link :to="'/nova-poshta/'"><button>Nova-Poshta</button></router-link>
+        <router-link :to="'/nova-poshta/'"><button>Nova-Poshta</button></router-link><!--NovaPoshta-->
     </div>
 </template> 
 
@@ -107,12 +107,14 @@ export default {
           ccyToSell: '',
           ccyToBuy: '',
           convertAmount: 0,
-          change: false
         }
     },
     computed:{
         studentsCount () {
             return this.$store.getters.getCount
+        },
+        change (){
+            return this.$store.getters.getChange
         }
     },
     mounted: async function() {
@@ -182,6 +184,10 @@ export default {
                     this.convertAmount = this.amount / rightDataExchange.sale
             })
         },
+        changedStyle: function(){
+            this.$store.commit('setStyle', !this.$store.getters.getChange);
+            localStorage.setItem('chg', this.$store.getters.getChange)
+        }
     }
 }
 </script>
