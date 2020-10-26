@@ -1,5 +1,13 @@
 <template>
     <div>
+        <template v-if="!change">
+            <link rel="stylesheet" href="./assets/styles/style1.css">
+            <button>Cтиль 2</button>
+        </template>
+        <template v-else>
+            <link rel="stylesheet" href="./assets/styles/style2.css">
+            <button>Стиль 1</button>
+        </template>
         <input type="text" v-model="surname">
         <table>
             <tr>
@@ -98,7 +106,8 @@ export default {
           amount: 0,
           ccyToSell: '',
           ccyToBuy: '',
-          convertAmount: 0
+          convertAmount: 0,
+          change: false
         }
     },
     computed:{
