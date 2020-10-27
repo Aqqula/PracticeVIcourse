@@ -43,7 +43,7 @@
                     <td>{{stud.group}}</td>
                     <td>{{stud.mark}}</td>
                     <td><input type="checkbox" v-model="stud.isDonePr"></td>
-                    <td><button v-on:click="deleteStud(stud._id)">Delete</button></td>
+                    <td><button v-on:click="deleteStud(stud._id)" v-show="stud.group = getCurrentUser.group">Delete</button></td>
                     <td><button v-on:click="FoudId(stud._id)">Update</button></td>
                 </template>
             </tr>
@@ -115,7 +115,10 @@ export default {
         },
         change (){
             return this.$store.getters.getChange
-        }
+        },
+        getCurrentUser (){
+            return this.$store.getters.getUser
+        },
     },
     mounted: async function() {
             let response = await Vue.axios.get("http://46.101.212.195:3000/students");
